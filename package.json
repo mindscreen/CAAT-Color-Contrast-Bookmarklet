@@ -1,0 +1,28 @@
+{
+  "name": "color-contrast-bookmarklet",
+  "version": "0.1.0",
+  "description": "color contrast checker bookmarklet",
+  "main": "dist/bookmarklet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel src/bookmarklet.js --no-cache",
+    "build": "node esbuild.mjs"
+  },
+  "keywords": [
+    "color-contrast",
+    "bookmarklet",
+    "accessibility"
+  ],
+  "author": "mindscreen GmbH",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.24.2"
+  },
+  "devDependencies": {
+  },
+  "targets": {
+    "main": {
+      "optimize": true
+    }
+  }
+}

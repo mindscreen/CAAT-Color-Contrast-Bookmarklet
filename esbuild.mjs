@@ -9,24 +9,6 @@ import { minifyCSS } from "./minifyCSS.js";
 const bookmarkletPlugin = options => ({
     name: 'bookmarkletPlugin',
     setup(build) {
-        build.onLoad({ filter: /\.(tsx|js)$/ }, async args => {
-            let code = await fs.promises.readFile(args.path, 'utf8');
-
-            const cssRegex = /css`([^`]+)`/g;
-            let match;
-            let newCode = code;
-
-            while ((match = cssRegex.exec(code)) !== null) {
-                const originalCSS = match[1];
-                const minifiedCSS = minifyCSS(originalCSS);
-                newCode = newCode.replace(originalCSS, minifiedCSS);
-            }
-
-            return {
-                loader: 'tsx',
-                contents: newCode,
-            };
-        });
         build.onEnd(async (result) => {
             const { outputFiles } = result;
             if (!outputFiles) return;
@@ -53,7 +35,7 @@ await esbuild.build({
     entryPoints: ['src/bookmarklet.js'],
     bundle: true,
     minify: true,
-    outfile: 'dist/bookmarkletConverted.js',
+    outfile: 'dist/bookmarklet.txt',
     write: false,
     plugins: [
         bookmarkletPlugin()
@@ -71,7 +53,6 @@ await esbuild.build({
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="style.css"/>
             <title>CAAT Color Contrast Checker Bookmarklet</title>
         </head>
         <body>
@@ -89,65 +70,5 @@ await esbuild.build({
         </html>
     `;
 
-    const cssStyle = `
-        html, body {
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-        }
-        .row {
-            margin: 0 auto;
-            max-width: 45rem;
-            padding: 0 1rem;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-            font-weight: 700;
-            color: #111;
-        }
-        h1 {
-            line-height: 1.2;
-            font-size: 2rem;
-            margin-bottom: 0;
-        }
-        @media screen and (min-width: 45em) {
-            h1 {
-                font-size: 3rem;
-            }
-        }
-        h2 {
-            line-height: 1.2;
-            font-size: 1.5rem;
-        }
-        p, li {
-            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-            color: #333;
-            line-height: 1.6;
-            font-size: 1.4rem;
-        }
-        p {
-            margin: 0 0 1rem 0;
-        }
-        li {
-            margin: 0 0 1rem 0;
-        }
-        ul, ol {
-            margin: 0 0 1rem 2rem;
-            padding: 0;
-            list-style-position: outside;
-        }
-        a {
-            color: #D7090E;
-        }
-        a:hover, a:focus {
-            color: #fff;
-            background-color: #ce171e;
-            border-top: 3px solid #ce171e;
-            text-decoration: none;
-            outline: none;
-        }
-    `;
-
     fs.writeFileSync(`${distDir}/ccc-bookmarklet.html`, htmlContent);
-    fs.writeFileSync(`${distDir}/style.css`, cssStyle);
 });

@@ -3,6 +3,7 @@
 With the CAAT Color Contrast Checker, you can easily check the color contrasts of website elements directly in your browser as a bookmarklet.
 This tool evaluates the contrast conformity according to the W3C guidelines for small and large text, as well as non-text content.
 Additionally, the color values and the calculated contrast ratio can be easily copied for further use.
+
 ## Features
 
 - Provides color contrast checks for websites
@@ -28,4 +29,4 @@ The default colors are controlled by the following variables:
 
 The color picker function is not available in all browsers and operating systems.
 
-if you have any questions or feedback, please open an issue.
+If you have any questions or feedback, please open an issue.

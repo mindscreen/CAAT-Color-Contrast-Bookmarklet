@@ -1,6 +1,6 @@
 {
   "name": "color-contrast-bookmarklet",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "color contrast checker bookmarklet",
   "main": "dist/bookmarklet.js",
   "scripts": {
@@ -16,9 +16,7 @@
   "author": "mindscreen GmbH",
   "license": "ISC",
   "dependencies": {
-    "esbuild": "^0.24.2"
-  },
-  "devDependencies": {
+    "esbuild": "^0.25.9"
   },
   "targets": {
     "main": {

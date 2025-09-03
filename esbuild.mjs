@@ -9,6 +9,25 @@ import { minifyCSS } from "./minifyCSS.js";
 const bookmarkletPlugin = options => ({
     name: 'bookmarkletPlugin',
     setup(build) {
+        build.onLoad({ filter: /\.(tsx|js)$/ }, async args => {
+            let code = await fs.promises.readFile(args.path, 'utf8');
+
+            const cssRegex = /css`([^`]+)`/g;
+            let match;
+            let newCode = code;
+
+            while ((match = cssRegex.exec(code)) !== null) {
+                const originalCSS = match[1];
+                const minifiedCSS = minifyCSS(originalCSS);
+                newCode = newCode.replace(originalCSS, minifiedCSS);
+            }
+
+            return {
+                loader: 'tsx',
+                contents: newCode,
+            };
+        });
+
         build.onEnd(async (result) => {
             const { outputFiles } = result;
             if (!outputFiles) return;
